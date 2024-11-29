@@ -4,7 +4,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Profile from './pages/profile';
 import AdminDashboard from './pages/adminDashboard';
-import Header from './components/Header';
+import Header from '../components/Header';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
