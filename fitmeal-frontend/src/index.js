@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import './index.css'; // Global CSS
+import App from './App'; // Main App component
+import { BrowserRouter as Router } from 'react-router-dom'; // React Router
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root') // The div with id="root" in public/index.html
 );
+
