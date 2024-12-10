@@ -1,29 +1,14 @@
 // models/Meal.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Meal = sequelize.define('Meal', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  calories: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
+const mealSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  ingredients: { type: String, required: true },
+  price: { type: Number, required: true },
+  nutritionInfo: { type: String, required: true },
 });
+
+const Meal = mongoose.model('Meal', mealSchema);
 
 module.exports = Meal;

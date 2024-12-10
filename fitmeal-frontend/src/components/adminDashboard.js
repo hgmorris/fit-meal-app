@@ -1,5 +1,6 @@
+// src/components/AdminDashboard.js
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid, Card, CardContent, TextField, Button } from '@mui/material';
+import { Container, Typography, Grid, TextField, Button } from '@mui/material';
 import API from '../services/api';
 
 const AdminDashboard = () => {
@@ -32,7 +33,7 @@ const AdminDashboard = () => {
 
     const fetchTips = async () => {
       try {
-        const response = await API.get('/tips');
+        const response = await API.get('/fitness-tips');
         setTips(response.data);
       } catch (error) {
         console.error('Error fetching tips:', error);
@@ -68,10 +69,10 @@ const AdminDashboard = () => {
   const handleAddTip = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/tips', newTip);
+      await API.post('/fitness-tips', newTip);
       setNewTip({ title: '', content: '', category: '', videoLink: '' });
       // Refresh tips
-      const response = await API.get('/tips');
+      const response = await API.get('/fitness-tips');
       setTips(response.data);
     } catch (error) {
       console.error('Error adding tip:', error);
@@ -188,7 +189,7 @@ const AdminDashboard = () => {
               onChange={handleTipChange}
               fullWidth
               multiline
-              rows={3}
+              rows={2}
               required
             />
           </Grid>
@@ -208,40 +209,6 @@ const AdminDashboard = () => {
           </Grid>
         </Grid>
       </form>
-
-      <Typography variant="h5" gutterBottom sx={{ mt: 6 }}>
-        Existing Meals
-      </Typography>
-      <Grid container spacing={4}>
-        {meals.map((meal) => (
-          <Grid item key={meal.id} xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">{meal.name}</Typography>
-                <Typography>Price: ${meal.price}</Typography>
-                <Typography>{meal.description}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Typography variant="h5" gutterBottom sx={{ mt: 6 }}>
-        Existing Fitness Tips
-      </Typography>
-      <Grid container spacing={4}>
-        {tips.map((tip) => (
-          <Grid item key={tip.id} xs={12} sm={6} md={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">{tip.title}</Typography>
-                <Typography>Category: {tip.category}</Typography>
-                <Typography>{tip.content}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </Container>
   );
 };

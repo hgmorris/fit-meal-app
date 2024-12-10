@@ -1,10 +1,10 @@
-// src/App.js (Frontend)
+// src/App.js
 import React, { useEffect, useState } from 'react';
-import { fetchUsers, updateUser } from './services/api';
+import { fetchUsers, createUser } from './services/api';
+import './App.css'; // Import the CSS file
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: '' });
 
   useEffect(() => {
@@ -25,14 +25,14 @@ function App() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleUpdateUser = async (id) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const updatedUser = await updateUser(id, formData);
-      setUsers(users.map(user => (user.id === id ? updatedUser : user)));
-      setSelectedUser(null);
+      const newUser = await createUser(formData);
+      setUsers([...users, newUser]);
       setFormData({ name: '', email: '', password: '', role: '' });
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.error('Error creating user:', error);
     }
   };
 
@@ -41,51 +41,43 @@ function App() {
       <h1>Users</h1>
       <ul>
         {users.map(user => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-            <button onClick={() => setSelectedUser(user)}>Edit</button>
-          </li>
+          <li key={user._id}>{user.name} - {user.email}</li>
         ))}
       </ul>
-      {selectedUser && (
-        <div>
-          <h2>Edit User</h2>
-          <form onSubmit={(e) => { e.preventDefault(); handleUpdateUser(selectedUser.id); }}>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Name"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="Email"
-            />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              placeholder="Password"
-            />
-            <input
-              type="text"
-              name="role"
-              value={formData.role}
-              onChange={handleInputChange}
-              placeholder="Role"
-            />
-            <button type="submit">Update User</button>
-          </form>
-        </div>
-      )}
+      <h2>Create User</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Name"
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          placeholder="Password"
+        />
+        <input
+          type="text"
+          name="role"
+          value={formData.role}
+          onChange={handleInputChange}
+          placeholder="Role"
+        />
+        <button type="submit">Create User</button>
+      </form>
     </div>
   );
 }
 
 export default App;
-

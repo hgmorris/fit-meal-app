@@ -2,6 +2,7 @@
 const express = require('express');
 const { getMeals, createMeal, updateMeal, deleteMeal } = require('../controllers/mealController');
 const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
+
 const router = express.Router();
 
 router.get('/', getMeals);
