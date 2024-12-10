@@ -1,23 +1,24 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Profile from './pages/Profile';
-import AdminDashboard from './pages/AdminDashboard';
+// src/services/api.js (Frontend)
+import axios from 'axios';
 
-const App = () => {
-  return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
-    </div>
-  );
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+
+export const fetchUsers = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/users`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
 };
 
-export default App;
+export const updateUser = async (id, userData) => {
+  try {
+    const response = await axios.put(`${API_URL}/users/${id}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
